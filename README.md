@@ -38,6 +38,9 @@
 文章查看
 ![](preview_pic/postview.png)
 
+类别查看
+![](preview_pic/categories.png)
+
 后台登录
 ![](preview_pic/login.png)
 
