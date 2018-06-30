@@ -1,0 +1,94 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+
+{% block title %}首页{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>文章编辑</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">文章管理</li>
+        <li class="active">文章编辑</li>
+    </ol>
+</section>
+<link rel="stylesheet" href="{{ url_for('static',filename='plugins/editormd/css/editormd.css') }}"/>
+{% endblock %}
+
+{% block content %}
+<div class="box-body pad">
+        <form method="post" action="{{ url_for('admin.post_edit',id=post.id) }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.title.label }}
+                {% if form.title.errors %}
+                    {% for e in form.title.errors %}
+                        <p class="help-block">{{ e }}</p>
+                    {% endfor %}
+                {% endif %}
+                {{ form.title(class_='form-control') }}
+            </div>
+            
+            <div class="form-group">
+                    {{ form.description.label }}
+                    {% if form.description.errors %}
+                        {% for e in form.description.errors %}
+                            <p class="help-block">{{ e }}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {{ form.description(class_='form-control') }}
+            </div>
+
+            <div class="form-group">
+                {{ form.categories.label }}
+                {% if form.categories.errors %}
+                    {% for e in form.categories.errors %}
+                        <p class="help-block">{{ e }}</p>
+                    {% endfor %}
+                {% endif %}
+                {{ form.categories(class_='form-control') }}
+            </div>
+
+            <div class="form-group">
+                {{ form.content.label }}
+                {% if form.content.errors %}
+                    {% for e in form.content.errors %}
+                        <p class="help-block">{{ e }}</p>
+                    {% endfor %}
+                {% endif %}
+                <div class="col-md">
+                    <div id="layout">
+                        <div id="editormd" class="form-control">
+                            {{ form.content(style="display:none;") }}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <input class="btn btn-primary" type="submit" value="Edit">
+        </form>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static',filename='plugins/editormd/editormd.min.js') }}"></script>
+<script>
+    function initPage() {
+        var testEditor;
+        $(function () {
+            testEditor = editormd("editormd", {
+                width: "100%",
+                height: 740,
+                syncScrolling: "single",
+                path: "{{ url_for('static',filename='plugins/editormd/lib/') }}"
+            });
+        });
+    }
+</script>
+{% endblock %}

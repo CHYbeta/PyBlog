@@ -1,0 +1,38 @@
+{% import "_macros.html" as macros %}
+{% extends "base.html" %} 
+
+{% block page_content %}
+<link href="{{ url_for('static', filename='css/index_style.css') }}" rel="stylesheet">
+<div class="box-body pad">
+  <div class="container">
+        {%for category in categories%}
+          <div class="category-preview">
+            <a href="category/{{category.id}}">
+              <h2 class="post-title">
+                {{category.name}}
+              </h2>
+            </a>
+            <p class="post-meta">Created by
+              <a href="#">{{category.author_name}}</a>
+              </p>
+          </div>
+        {%endfor%}
+        <!-- Pager -->
+        <div class="pagination">
+          {{ macros.pagination_widget(pagination, 'main.view_by_categories') }}
+        </div>
+  </div>
+</div>
+
+<!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p class="copyright text-muted">Powered by PyBlog</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+{% endblock %}

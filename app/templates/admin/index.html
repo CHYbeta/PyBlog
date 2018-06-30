@@ -1,0 +1,85 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+
+{% block title %}首页{% endblock %}
+
+{% block navbar %}
+<section class="content-header">
+    <h1>仪表盘</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">仪表盘</li>
+    </ol>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-aqua">
+                    <div class="inner">
+                        <h3 id="count01">0</h3>
+                        <p>文章数量</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-gear-outline"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3 id="count02">0</h3>
+                        <p>评论数量</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-iphone"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h3 id="count03">0</h3>
+                        <p>用户数量</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-person-add"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3 id="count04">0</h3>
+                        <p>分类数量</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function initPage() {
+        var jsInObj = null;
+        restTemplate("GET", "/stats/summary", jsInObj, function (jsOutObj) {
+            $("#count01").text(jsOutObj.post_count);
+            $("#count02").text(jsOutObj.comment_count);
+            $("#count03").text(jsOutObj.user_count);
+            $("#count04").text(jsOutObj.category_count);
+        });
+    }
+</script>
+{% endblock %}

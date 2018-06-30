@@ -1,0 +1,65 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+{% import "_macros.html" as macros %} {% block title %}首页{% endblock %} {% block navbar %}
+<section class="content-header">
+    <h1>用户列表</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">站长管理</li>
+        <li class="active">日志列表</li>
+    </ol>
+</section>
+
+{% endblock %} {% block content %}
+<div class="box-body pad">
+    <div class="list-detials">
+        <form class="delete-articles" id="delArticlesForm" method="category" action="#">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr class="table-header">
+                        <th>操作ID</th>
+                        <th>操作类型</th>
+                        <th>操作表</th>
+                        <th>操作对象</th>
+                        <th>操作人</th>
+                        <th>操作时间</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>
+                            {{ log.id }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ log.opr_type }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ log.opr_obj }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ log.msg }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ log.author_name }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ log.update_time }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, 'admin.log') }}
+    </div>
+</div>
+
+{% endblock %} 

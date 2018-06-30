@@ -1,0 +1,67 @@
+{% if current_user.is_superuser %} {% extends "admin/superuser_base.html" %} {% else %} {% extends "admin/normal_user.html"
+%} {% endif %} {% import "_macros.html" as macros %} {% block title %}首页{% endblock %} {% block navbar %}
+<section class="content-header">
+    <h1>评论审核</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">评论管理</li>
+        <li class="active">评论审核</li>
+    </ol>
+</section>
+
+{% endblock %} {% block content %}
+<div class="page-header">
+</div>
+{% set moderate = True %}
+<div class="comments">
+        {% for comment in comments %}
+        <div class="comment panel panel-default">
+            <div class="panel-heading">
+                <span class="pull-right">
+                    <span class="comment-date label label-default">{{ moment(comment[0].timestamp).fromNow() }}</span>
+                    <span class="label label-default">评论</span>
+
+                </span>
+
+            </div>
+
+            <div class="panel-content">
+                <div class="comment-content" style="word-break:break-all; word-wrap:break-all;">
+                    {% if comment[0].disabled %}      
+                        <p><i>该条评论正在审核中</i></p>
+                    {% endif %}
+                    {% if moderate or not comment[0].disabled %}
+                        {% if comment[0].content_html %}
+                            {{ comment[0].content_html|safe }}
+                        {% else %}
+                            {{ comment[0].content }}
+                        {% endif %}
+                    {% endif %}
+                    
+                </div>
+               
+                    <br>
+                      {% if moderate %}   
+                    {% if comment[0].disabled %}
+                        <a class="btn btn-default btn-xs"
+                           href="{{ url_for('admin.moderate_status',id=comment[0].id,page=page,status='enable') }}">
+                            Enable
+                        </a>
+                    {% else %}
+                        <a class="btn btn-danger btn-xs"
+                            href="{{ url_for('admin.moderate_status',id=comment[0].id,page=page,status='disable') }}">
+                            Disable
+                        </a>   
+                    {% endif %}
+               
+                      {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, 'admin.comment_moderate') }}
+</div>
+{% endblock %}

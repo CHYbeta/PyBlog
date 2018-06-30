@@ -1,0 +1,120 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+{% import "_macros.html" as macros %} {% block title %}首页{% endblock %} {% block navbar %}
+<section class="content-header">
+    <h1>用户列表</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">用户管理</li>
+        <li class="active">用户列表</li>
+    </ol>
+</section>
+
+{% endblock %} {% block content %}
+<div class="box-body pad">
+    <div class="list-detials">
+        <form class="delete-articles" id="delArticlesForm" method="user" action="#">
+            <form class="solve problem">
+                {{ form2.user_id(type='hidden') }}
+            </form>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr class="table-header">
+                        <th>用户ID</th>
+                        <th>用户名</th>
+                        <th>用户邮箱</th>
+                        <th>超级管理员</th>
+                        <th>上次登录时间</th>
+                        <th>上次登录IP</th>
+                        <th>资料编辑</th>
+                        <th>密码修改</th>
+                        <th>用户删除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>
+                            {{ user.id }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ user.username }}
+                        </td>
+                        <td class="table-checkbox-or-left">
+                            {{ user.email }}
+                        </td>
+                        <td>
+                            {% if user.is_superuser == True %}
+                                是
+                            {% else %}
+                                否
+                            {% endif %}
+                        </td>
+                        <td>{{ user.last_login_at }}</td>
+                        <td>{{ user.last_login_ip }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.user_edit_profile', id=user.id) }}">
+                                <span class="glyphicon glyphicon-user" title="用户资料编辑"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('admin.user_edit_password', id=user.id) }}">
+                                <span class="glyphicon glyphicon-pencil" title="用户密码编辑"></span>
+                            </a>
+                        </td>
+                        <td>
+                            <form class="delete-user" id="delUserForm{{ user.id }}" method="post" action="{{ url_for('admin.user_delete', id=user.id) }}">
+                                {{ form2.csrf_token }} {{ form2.user_id(type='hidden', value=user.id) }}
+                                <a class="btn btn-sm btn-default" onclick="delUser({{ user.id }})" title="删除用户">
+                                    <span class="glyphicon glyphicon-trash delete-user"></span>
+                                </a>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, 'admin.user_list') }}
+    </div>
+</div>
+<div class="modal fade" id="deleteUserClickModel">
+    <div class="modal-dialog">
+        <div class="modal-content message_align">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">确认删除该用户？</h4>
+            </div>
+            <div class="modal-body">
+                <p>删除后不可恢复，用户资料及其文章将被删除，确认要删除吗？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <a onclick="" id="deletePostClick" class="btn btn-success" data-dismiss="modal">确定</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+{% endblock %} {% block scripts %}
+<script>
+    function delUser(userId) {
+        $('#deletePostClick').click(function () {
+            $('#delUserForm' + userId).submit();
+        });
+        $('#deleteUserClickModel').modal();
+    }
+
+</script> {% endblock %}

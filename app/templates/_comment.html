@@ -1,0 +1,46 @@
+<div class="comments">
+    {% for comment in comments %}
+        <div class="comment panel panel-default">
+            <div class="panel-heading">
+                <span class="pull-right">
+                    <span class="comment-date label label-default">{{ moment(comment.timestamp).fromNow() }}</span>
+                    <span class="label label-default">评论</span>
+
+                </span>
+
+            </div>
+
+            <div class="panel-content">
+                <div class="comment-content" style="word-break:break-all; word-wrap:break-all;">
+                    {% if comment.disabled %}      
+                        <p><i>该条评论正在审核中</i></p>
+                    {% endif %}
+                    {% if moderate or not comment.disabled %}
+                        {% if comment.content_html %}
+                            {{ comment.content_html|safe }}
+                        {% else %}
+                            {{ comment.content }}
+                        {% endif %}
+                    {% endif %}
+                    
+                </div>
+               
+                    <br>
+                      {% if moderate %}   
+                    {% if comment.disabled %}
+                        <a class="btn btn-default btn-xs"
+                           href="{{ url_for('admin.moderate_status',id=comment.id,page=page,status='enable') }}">
+                            Enable
+                        </a>
+                    {% else %}
+                        <a class="btn btn-danger btn-xs"
+                            href="{{ url_for('admin.moderate_status',id=comment.id,page=page,status='disable') }}">
+                            Disable
+                        </a>   
+                    {% endif %}
+               
+                      {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

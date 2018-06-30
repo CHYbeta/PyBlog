@@ -1,0 +1,110 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+{% import "_macros.html" as macros %}
+{% block title %}首页{% endblock %} 
+
+{% block navbar %}
+<section class="content-header">
+    <h1>评论查看</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">评论管理</li>
+        <li class="active">评论查看</li>
+    </ol>
+</section>
+
+{% endblock %} 
+
+{% block content %}
+<div class="box-body pad">
+    <div class="list-detials">
+        <form class="delete-comment" id="delCommentForm" method="post" action="#">
+            <form>
+                {{ form2.comment_id(type='hidden') }}
+            </form>
+            <table class="table table-striped table-hover" style="word-break:break-all; word-wrap:break-all;">
+                <thead>
+                    <tr class="table-header">
+                        <th>评论ID</th>
+                        <th>评论内容</th>
+			            <th>评论文章</th>
+                        <th>评论时间</th>
+                        <th>评论状态</th>
+                        <th>删除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                    <tr>
+                        <td style="width:10%">{{ comment[0].id }} </td>
+                        <th style="width:40%">
+                          {{ comment[0].content }}
+                        </th>
+                        <td style="width:15%">
+                            <a href="{{ url_for('admin.post_view_by_id', id=comment[0].post_id) }}" target="_blank">{{ comment[0].post_title }}</a>
+                        </td>
+                        <td style="width:10%">{{ comment[0].timestamp }}</td>
+                        <td style="width:10%">
+			                {% if comment[0].disabled %}               
+                               <span>禁止</span>
+			                {% else %}
+			                    <span>正常</span>
+                           {% endif %}
+                           
+                        </td>
+                        <td style="width:10%">
+                            <form class="delete-comment" id="delCommentForm{{ comment[0].id }}" method="post" action="{{ url_for('admin.comment_delete', id=comment[0].id) }}">
+                                {{ form2.csrf_token }}
+                                {{ form2.comment_id(type='hidden', value=comment[0].id) }}
+                                <a class="btn btn-sm btn-default" onclick="deleteComment({{ comment[0].id }})" title="删除评论">
+                                    <span class="glyphicon glyphicon-trash delete-comment"></span>
+                                </a>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="pagination">
+        {{ macros.pagination_widget(pagination, 'admin.comment_list') }}
+    </div>
+</div>
+<div class="modal fade" id="deleteCommentClickModel">
+        <div class="modal-dialog">
+            <div class="modal-content message_align">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认删除评论？</h4>
+                </div>
+                <div class="modal-body">
+                    <p>删除后不可恢复，确认要删除吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a onclick="deleteComment" id="deleteCommentClick" class="btn btn-success" data-dismiss="modal">确定</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock %} 
+
+{% block scripts %}
+<script>
+function deleteComment(commentId) {
+    $('#deleteCommentClick').click(function () {
+        $('#delCommentForm' + commentId).submit();
+    });
+    $('#deleteCommentClickModel').modal();
+}
+
+</script> 
+{% endblock %}

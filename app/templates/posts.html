@@ -1,0 +1,85 @@
+{% import "_macros.html" as macros %}
+{% extends "base.html" %} 
+
+{% block page_content %}
+<link href="{{ url_for('static', filename='css/post_styles.css') }}" rel="stylesheet">
+<!-- <link href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap-glyphicons.css') }}" rel="stylesheet"> -->
+<script type="text/javascript" src="{{ url_for('static', filename='plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
+
+<div class="box-body pad">
+<div class="container">
+ <header class="page-header">
+    <h2>共有{{ lenght }}篇文章！</h2>
+  </header>
+
+	 <ul class="timeline">
+	 {% for post in posts %}
+            {% if post.id == posts[0].id %}
+                {{ set_curYear(post.update_time.year) }}
+                {{ set_curMonth(post.update_time.month) }} 
+                {{ set_left(True) }}
+                <li><div class="tldate">{{ get_curYear() }}</div></li>
+            {% endif %}       
+	    {% if post.update_time.year == get_curYear() %}
+		    {% if post.update_time.month != get_curMonth() %}
+		        {% if get_left() %}
+		           {{ set_left(False) }}
+		        {% else %}
+			   {{ set_left(True) }}
+			 {% endif %}
+		    {{ set_curMonth(post.update_time.month) }}
+		    {% endif %}
+	     {% else %}
+		  {{ set_curYear(post.update_time.year) }}
+                  {{ set_curMonth(post.update_time.month) }} 
+  	            <li><div class="tldate">{{get_curYear()}}</div></li>
+		   {% if get_left() %}
+		      {{ set_left(False) }}
+		   {% else %}
+		      {{ set_left(True) }}
+		   {% endif %}
+                 {{ left }}
+	     {% endif %}
+		{% if get_left() %}
+		    <li>
+                <div class="tl-circ"></div>
+                <div class="timeline-panel">
+                <div class="tl-heading">
+                 <a href="{{url_for('main.post_view_by_id', id=post.id)}}"> <h4>{{post.title}}</h4></a>
+                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{post.update_time}}</small></p>
+                </div>
+                </div>
+                 </li>
+	 	{% else %}
+		   <li class="timeline-inverted">
+                  <div class="tl-circ"></div>
+                 <div class="timeline-panel">
+                  <div class="tl-heading">
+                  <a href="{{url_for('main.post_view_by_id', id=post.id)}}"> <h4>{{post.title}}</h4></a>
+                  <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>{{post.update_time}}</small></p>
+                  </div>
+                  </div>
+                  </li>
+		{% endif %}
+	 {% endfor %}
+	 </ul>
+	 
+	 <!-- Pager -->
+       <div class="pagination">
+          {{ macros.pagination_widget(pagination, 'main.view_posts') }}
+      </div>
+</div>
+</div>
+
+<!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p class="copyright text-muted">Powered by PyBlog</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+{% endblock %}

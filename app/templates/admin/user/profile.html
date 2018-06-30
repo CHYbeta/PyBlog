@@ -1,0 +1,83 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+{% block title %}首页{% endblock %} 
+
+{% block navbar %}
+<section class="content-header">
+    <h1>用户 {{user.username}} 资料修改</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">用户管理</li>
+        <li class="active">用户资料修改</li>
+    </ol>
+</section>
+{% endblock %} 
+
+{% block content %}
+<div class="box-body pad">
+    <form method="post" id="userProfileChangeForm" action="{{ url_for('admin.user_edit_profile',id=user.id) }}">
+            {{ form.hidden_tag() }}
+        <div class="form-group">
+                {{ form.username.label }}
+                {% if form.username.errors %}
+                    {% for e in form.username.errors %}
+                        <p class="help-block">{{ e }}</p>
+                    {% endfor %}
+                {% endif %}
+                {{ form.username(class_='form-control') }}
+        </div>
+        <div class="form-group">
+                {{ form.email.label }}
+                {% if form.email.errors %}
+                    {% for e in form.email.errors %}
+                        <p class="help-block">{{ e }}</p>
+                    {% endfor %}
+                {% endif %}
+                {{ form.email(class_='form-control') }}
+        </div>
+        <div>
+                {{ form.is_superuser.label }}
+                
+                {% if current_user.is_superuser %}
+                    {{ form.is_superuser() }}
+                {% else %}
+                    否
+                {% endif %}
+        </div>
+    </form>
+    <input class="btn btn-primary" type="button" onclick="userProfileChange()" value="修改">
+</div>
+<div class="modal fade" id="userProfileChangeModel">
+        <div class="modal-dialog">
+            <div class="modal-content message_align">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认修改该用户资料？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a onclick="" id="userProfileChangeClick" class="btn btn-success" data-dismiss="modal">确定</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock %} 
+
+{% block scripts %}
+<script>
+function userProfileChange() {
+    $('#userProfileChangeClick').click(function () {
+        $('#userProfileChangeForm').submit();
+    });
+    $('#userProfileChangeModel').modal();
+}
+
+</script> 
+{% endblock %}

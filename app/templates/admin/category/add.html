@@ -1,0 +1,65 @@
+{% if current_user.is_superuser %}
+{% extends "admin/superuser_base.html" %}
+{% else %}
+{% extends "admin/normal_user.html" %}
+{% endif %}
+
+{% block title %}首页{% endblock %} 
+
+{% block navbar %}
+<section class="content-header">
+    <h1>增加用户</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-dashboard"></i> 当前位置</li>
+        <li class="active">类别管理</li>
+        <li class="active">增加类别</li>
+    </ol>
+</section>
+{% endblock %} 
+
+{% block content %}
+<div class="box-body pad">
+    <form method="post" id="newCategoryAdd" action="{{ url_for('admin.category_add') }}">
+            {{ form.hidden_tag() }}
+        <div class="form-group">
+                {{ form.name.label }}
+                {% if form.name.errors %}
+                    {% for e in form.name.errors %}
+                        <p class="help-block">{{ e }}</p>
+                    {% endfor %}
+                {% endif %}
+                {{ form.name(class_='form-control') }}
+        </div>
+    </form>
+    <input class="btn btn-primary" type="button" onclick="categoryAdd()" value="增加">
+</div>
+<div class="modal fade" id="newCategoryAddModel">
+        <div class="modal-dialog">
+            <div class="modal-content message_align">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认增加该类别？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a onclick="" id="newCategoryAddClick" class="btn btn-success" data-dismiss="modal">确定</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+{% endblock %} 
+
+{% block scripts %}
+<script>
+function categoryAdd() {
+    $('#newCategoryAddClick').click(function () {
+        $('#newCategoryAdd').submit();
+    });
+    $('#newCategoryAddModel').modal();
+}
+
+</script> 
+{% endblock %}

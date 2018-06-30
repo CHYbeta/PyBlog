@@ -1,0 +1,36 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}PyBlog{% endblock %}
+
+{% block navbar %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">PyBlog</a>
+                    
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/index">Home</a></li>
+                <li><a href="/posts">Posts</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="https://github.com/chybeta/PyBlog">Github</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% block page_content %}{% endblock %}
+</div>
+{% endblock %}

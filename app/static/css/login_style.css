@@ -1,0 +1,8 @@
+body {
+    background: url('../images/background.jpg');
+    background-size:cover;
+}
+
+.login-page {
+    margin-top: 200px;
+}

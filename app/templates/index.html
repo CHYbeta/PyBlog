@@ -1,0 +1,41 @@
+{% import "_macros.html" as macros %}
+{% extends "base.html" %} 
+
+{% block page_content %}
+<link href="{{ url_for('static', filename='css/index_style.css') }}" rel="stylesheet">
+<div class="box-body pad">
+  <div class="container">
+        {%for post in posts%}
+          <div class="post-preview">
+            <a href="post/{{post.Post.id}}">
+              <h2 class="post-title">
+                {{post.Post.title}}
+              </h2>
+              <h3 class="post-subtitle">
+                {{post.Post.description}}
+              </h3>
+            </a>
+            <p class="post-meta">Posted by
+              <a href="#">{{post.Post.author_name}}</a>
+              on {{post.Post.update_time}}</p>
+          </div>
+        {%endfor%}
+        <!-- Pager -->
+        <div class="pagination">
+          {{ macros.pagination_widget(pagination, 'main.index') }}
+        </div>
+  </div>
+</div>
+
+<!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p class="copyright text-muted">Powered by PyBlog</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+{% endblock %}
