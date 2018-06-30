@@ -41,8 +41,11 @@
 后台登录
 ![](preview_pic/login.png)
 
-后台主界面
+超级管理员主界面
 ![](preview_pic/admin_index.png)
+
+普通管理员主界面
+![](preview_pic/normal_user.png)
 
 后台用户管理
 ![](preview_pic/user_list.png)
@@ -50,6 +53,6 @@
 后台文章管理
 ![](preview_pic/post_list.png)
 
-# Contributor
+# Contributors
 + [@Jackfkchan](https://github.com/Jackfkchan)
 + [@sun3et](https://github.com/initlisk)
