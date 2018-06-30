@@ -22,9 +22,11 @@
 
 打开浏览器： http://127.0.0.1:5000/ 
 
-默认后台地址： http://127.0.0.1/login
+默认后台地址： http://127.0.0.1:500/login
 
-默认超级管理员账号/密码： admin@pyblog.com/admin
+默认超级管理员账号： admin@pyblog.com
+
+默认超级管理员密码： admin
 
 ## 界面预览
 主界面
