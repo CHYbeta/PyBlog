@@ -5,7 +5,12 @@
 + MySQL 5+
 
 ## 安装说明
-命令行
+首先在MySQL中创建一个数据库，以数据库用户root:root为例:
+```
+~ mysql -uroot -proot -e "create database pyblog"
+```
+
+安装过程
 ```
 ~ git clone https://github.com/CHYbeta/PyBlog.git
 ~ cd PyBlog/
@@ -42,3 +47,7 @@
 
 后台文章管理
 ![](preview_pic/post_list.png)
+
+# Contributor
++ [@Jackfkchan](https://github.com/Jackfkchan)
++ [@sun3et](https://github.com/initlisk)
