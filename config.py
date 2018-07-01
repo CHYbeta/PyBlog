@@ -23,7 +23,7 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:root@localhost/pyblog"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:root@localhost/pyblog?charset=utf8"
 
 
 config = {

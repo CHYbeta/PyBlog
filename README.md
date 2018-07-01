@@ -5,9 +5,9 @@
 + MySQL 5+
 
 ## 安装说明
-首先在MySQL中创建一个数据库，以数据库用户root:root为例:
+首先在MySQL中创建一个数据库，注意同时设置了字符集为utf8以支持中文。以数据库用户root:root为例:
 ```
-~ mysql -uroot -proot -e "create database pyblog"
+~ mysql -uroot -proot -e "create database pyblog  default character set utf8;"
 ```
 
 安装过程
