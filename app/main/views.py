@@ -79,9 +79,9 @@ def view_by_categories():
         pagination=pagination)
 
 
-@main.route('/about', methods=['GET', 'POST'])
-def about_the_site():
-    return "hacked by chybeta"
+# @main.route('/about', methods=['GET', 'POST'])
+# def about_the_site():
+#     return "hacked by chybeta"
 
 
 @main.route('/category/<int:cid>', methods=['GET', 'POST'])
