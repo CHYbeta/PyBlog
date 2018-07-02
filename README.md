@@ -1,6 +1,7 @@
 # PyBlog
-[[license][https://img.shields.io/badge/license-GPL3.0-blue.svg]]
-[[https://www.python.org/download/releases/3.0/][https://img.shields.io/badge/python-3.5-green.svg]]
+![license](https://img.shields.io/github/license/mashape/apistatus.svg)
+
+[PyPI - Python 3.5](https://img.shields.io/pypi/pyversions/Django.svg)
 
 ## 运行环境
 + Windows / Linux / macOS and so on...
