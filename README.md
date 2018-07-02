@@ -1,7 +1,7 @@
 # PyBlog
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 
-[PyPI - Python 3.5](https://img.shields.io/pypi/pyversions/Django.svg)
+![PyPI - Python 3.5](https://img.shields.io/pypi/pyversions/Django.svg)
 
 ## 运行环境
 + Windows / Linux / macOS and so on...
