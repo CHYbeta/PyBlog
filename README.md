@@ -1,4 +1,7 @@
 # PyBlog
+[[license][https://img.shields.io/badge/license-GPL3.0-blue.svg]]
+[[https://www.python.org/download/releases/3.0/][https://img.shields.io/badge/python-3.5-green.svg]]
+
 ## 运行环境
 + Windows / Linux / macOS and so on...
 + python 3
@@ -22,7 +25,7 @@
 
 打开浏览器： http://127.0.0.1:5000/ 
 
-默认后台地址： http://127.0.0.1:500/login
+默认后台地址： http://127.0.0.1:5000/login
 
 默认超级管理员账号： admin@pyblog.com
 
